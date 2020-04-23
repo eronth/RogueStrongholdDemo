@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
+  - Blocking
+  - Clickable
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 4115756803
+    locked: 0
+  - name: Items
+    uniqueID: 155465853
+    locked: 0
+  - name: Units
+    uniqueID: 3153673549
     locked: 0
