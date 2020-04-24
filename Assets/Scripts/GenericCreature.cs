@@ -11,22 +11,23 @@ public abstract class GenericCreature : MonoBehaviour
     private BoxCollider2D boxCollider;
     private Rigidbody2D rb2D;
 
-    // // Start is called before the first frame update
+    // Start is called before the first frame update
     protected virtual void Start()
     {
-    //     // Get references to objects components.
+        // Get references to objects components.
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
 
-    //     // By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
+        // By storing the reciprocal of the move time we can use it by multiplying instead of dividing, this is more efficient.
         inverseMoveTime = 1f / moveTime;
     }
 
-    protected virtual void AttemptMove<T>(int xDir, int yDir)
+    protected virtual void AttemptMove<T>(float xPos, float yPos)
         where T : Component
     {
         RaycastHit2D hit;
-        bool canMove = Move(xDir, yDir, out hit);
+        // TODO handle collisions with anything.
+        bool canMove = Move(xPos, yPos, out hit);
 
     //     if (hit.transform == null)
     //     {
@@ -41,12 +42,10 @@ public abstract class GenericCreature : MonoBehaviour
     //     }
     }
 
-    protected bool Move (int xDir, int yDir, out RaycastHit2D hit)
+    protected bool Move (float xPos, float yPos, out RaycastHit2D hit)
     {
-    // //     Vector3 end = new Vector3(-3, 3, 0);
-    // //     rb2D.MovePosition(end);
         Vector2 start = transform.position;
-        Vector2 end = start + new Vector2(xDir, yDir);
+        Vector2 end = new Vector2(xPos, yPos); //+ start;
         boxCollider.enabled = false;
         hit = Physics2D.Linecast(start, end, blockingLayer);
         boxCollider.enabled = true;

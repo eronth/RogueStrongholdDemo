@@ -68,14 +68,14 @@ public class PlayerMovement : GenericCreature
         previousInput.y = movement.y;
     }
 
-    public void MoveToLocation(int xPos, int yPos)
+    public void MoveToLocation(float xPos, float yPos)
     {
         AttemptMove<Wall>(xPos, yPos);
     }
 
-    protected override void AttemptMove<T>(int xDir, int yDir)
+    protected override void AttemptMove<T>(float xPos, float yPos)
     {
-        base.AttemptMove<T>(xDir, yDir);
+        base.AttemptMove<T>(xPos, yPos);
         RaycastHit2D hit;
     //     CheckIfGameOver();
     //     //todo GameManager.instance.playersTurn = false;

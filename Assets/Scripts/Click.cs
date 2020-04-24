@@ -65,7 +65,13 @@ public class Click : MonoBehaviour
                     Debug.Log(debugMessage);
                     DebuggerOnScreen.Extra = debugMessage;
 
-                    selectedCharacter.GetComponent<PlayerMovement>().MoveToLocation(1,1);
+                    Vector3 mousePositionToWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    DebuggerOnScreen.Mouse = $"Mouse clicking at {mousePositionToWorldPosition.x}, {mousePositionToWorldPosition.y}";
+                    mousePositionToWorldPosition.z = 0;
+                    selectedCharacter.GetComponent<PlayerMovement>().MoveToLocation(
+                        mousePositionToWorldPosition.x,
+                        mousePositionToWorldPosition.y
+                    );
                 }
                 else
                 {
