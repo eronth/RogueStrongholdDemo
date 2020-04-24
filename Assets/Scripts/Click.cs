@@ -68,7 +68,7 @@ public class Click : MonoBehaviour
                     Vector3 mousePositionToWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     DebuggerOnScreen.Mouse = $"Mouse clicking at {mousePositionToWorldPosition.x}, {mousePositionToWorldPosition.y}";
                     mousePositionToWorldPosition.z = 0;
-                    selectedCharacter.GetComponent<PlayerMovement>().MoveToLocation(
+                    selectedCharacter.GetComponent<PlayerMovement>().MoveToGridLocation(
                         mousePositionToWorldPosition.x,
                         mousePositionToWorldPosition.y
                     );

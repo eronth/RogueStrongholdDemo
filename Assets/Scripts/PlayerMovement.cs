@@ -68,6 +68,13 @@ public class PlayerMovement : GenericCreature
         previousInput.y = movement.y;
     }
 
+    public void MoveToGridLocation(float xPos, float yPos)
+    {
+        xPos = (float)Math.Round(xPos);
+        yPos = (float)Math.Round(yPos);
+        AttemptMove<Wall>(xPos, yPos);
+    }
+
     public void MoveToLocation(float xPos, float yPos)
     {
         AttemptMove<Wall>(xPos, yPos);
