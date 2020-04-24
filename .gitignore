@@ -1,4 +1,5 @@
 # git rm -r --cached .
+# git add .
 # git commit -m 'Fixing .gitignore'
 # git push origin master
 
