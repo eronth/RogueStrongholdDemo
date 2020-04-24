@@ -22,8 +22,8 @@ public abstract class GenericCreature : MonoBehaviour
         inverseMoveTime = 1f / moveTime;
     }
 
-    protected virtual void AttemptMove<T>(float xPos, float yPos)
-        where T : Component
+    protected virtual void AttemptMove(float xPos, float yPos)
+        // where T : Component
     {
         RaycastHit2D hit;
         // TODO handle collisions with anything.
@@ -63,7 +63,6 @@ public abstract class GenericCreature : MonoBehaviour
 
     protected IEnumerator SmoothMovement (Vector3 end)
     {
-    //     end = new Vector3(-3, 3, 0);
         float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
 
         while (sqrRemainingDistance > float.Epsilon)
