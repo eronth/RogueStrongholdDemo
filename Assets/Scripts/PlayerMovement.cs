@@ -32,22 +32,32 @@ public class PlayerMovement : GenericCreature
         //  }
     }
 
-
-    public void MoveToGridLocation(float xPos, float yPos)
+    public void MoveToCellCoordinates(Vector3Int gridCell)
     {
-        xPos = (float)Math.Round(xPos);
-        yPos = (float)Math.Round(yPos);
-        AttemptMove(xPos, yPos);
+        AttemptMoveToCellCoords(gridCell);
     }
 
-    public void MoveToLocation(float xPos, float yPos)
-    {
-        AttemptMove(xPos, yPos);
-    }
 
-    protected override void AttemptMove(float xPos, float yPos)
+    // public void MoveToGridLocation(float xPos, float yPos)
+    // {
+    //     xPos = (float)Math.Round(xPos);
+    //     yPos = (float)Math.Round(yPos);
+    //     AttemptMove(xPos, yPos);
+    // }
+
+    // public void MoveToLocation(float xPos, float yPos)
+    // {
+    //     AttemptMove(xPos, yPos);
+    // }
+
+    // protected override void AttemptMove(float xPos, float yPos)
+    // {
+    //     base.AttemptMove(xPos, yPos);
+    // }
+
+    protected override void AttemptMoveToCellCoords(Vector3Int cellCoordinates)
     {
-        base.AttemptMove(xPos, yPos);
+        base.AttemptMoveToCellCoords(cellCoordinates);
     }
 
     protected override void OnCantMove<T>(T component)

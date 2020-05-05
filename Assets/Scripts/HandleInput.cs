@@ -61,23 +61,23 @@ public class HandleInput : MonoBehaviour
             {
                 if (selectedCharacter != null)
                 {
-                    var debugMessage = $"Moving {selectedCharacter.name} to {Input.mousePosition.x}, {Input.mousePosition.y}";
-                    Debug.Log(debugMessage);
-                    DebuggerOnScreen.Extra = debugMessage;
+                    // Collect the coordinates and convert to grid coordinates.
+                    Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3Int clickedGridCell = World.Grid.WorldToCell(mouseWorldPos);
 
-                    Vector3 mousePositionToWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    DebuggerOnScreen.Mouse = $"Mouse clicking at {mousePositionToWorldPosition.x}, {mousePositionToWorldPosition.y}";
-                    mousePositionToWorldPosition.z = 0;
-                    selectedCharacter.GetComponent<PlayerMovement>().MoveToGridLocation(
-                        mousePositionToWorldPosition.x,
-                        mousePositionToWorldPosition.y
-                    );
+                    var debugMessage = $"Mouse click at {mouseWorldPos} mapping to {clickedGridCell}. Moving {selectedCharacter.name}.";
+                    Debug.Log(debugMessage);
+                    DebuggerOnScreen.Mouse = debugMessage;
+
+                    selectedCharacter.GetComponent<PlayerMovement>()
+                        .MoveToCellCoordinates(clickedGridCell);
                 }
                 else
                 {
+                    Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                    Vector3Int clickedGridCell = World.Grid.WorldToCell(mouseWorldPos);
                     DebuggerOnScreen.Mouse 
-                        = $"Clicked at {Input.mousePosition.x}, {Input.mousePosition.y}";
-
+                        = $"Clicked at Input: {Input.mousePosition}; ScreentToWorldPoint: {mouseWorldPos}; WorldToCell: {clickedGridCell};";
                 }
             }
         }
@@ -88,6 +88,7 @@ public class HandleInput : MonoBehaviour
             if (selectedCharacter != null)
             {
                 selectedCharacter.GetComponent<PlayerMovement>().Unselect();
+                selectedCharacter = null;
             }
         }
 
