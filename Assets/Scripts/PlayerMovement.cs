@@ -36,8 +36,7 @@ public class PlayerMovement : GenericCreature
     {
         AttemptMoveToCellCoords(gridCell);
     }
-
-
+    
     // public void MoveToGridLocation(float xPos, float yPos)
     // {
     //     xPos = (float)Math.Round(xPos);
