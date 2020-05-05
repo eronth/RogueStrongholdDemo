@@ -56,11 +56,12 @@
      <Compile Include="Assets\Scripts\BoardManager.cs" />
      <Compile Include="Assets\Scripts\ClickedOn.cs" />
      <Compile Include="Assets\Scripts\ColorManager.cs" />
-     <Compile Include="Assets\Scripts\DebuggerOnScreen.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GenericCreature.cs" />
      <Compile Include="Assets\Scripts\HandleInput.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\Statics\DebuggerOnScreen.cs" />
+     <Compile Include="Assets\Scripts\Statics\World.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/eronth/source/repos/RogueStronghold/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
