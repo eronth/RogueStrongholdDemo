@@ -22,6 +22,7 @@ public class HandleInput : MonoBehaviour
         HandleKeyInputs();
     }
 
+    public Sprite spriteHolder;
     private bool HandleMouseClicks()
     {
         bool didClick = false;
@@ -46,6 +47,8 @@ public class HandleInput : MonoBehaviour
                 // Action to take if you've clicked on a player's character.
                 if (hit.collider.gameObject.CompareTag("Player"))
                 {
+                    SpriteRenderer sr = hit.collider.GetComponent<SpriteRenderer>();
+                    sr.sprite = spriteHolder;
                     // TODO Fire off special function that will set character to selected AND color them.
                     if (selectedCharacter != hit.collider)
                     {
@@ -59,6 +62,7 @@ public class HandleInput : MonoBehaviour
             // Action to take if you did not click on something (e.g. You clicked on the ground.)
             else
             {
+
                 if (selectedCharacter != null)
                 {
                     // Collect the coordinates and convert to grid coordinates.

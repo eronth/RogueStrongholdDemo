@@ -60,6 +60,8 @@
      <Compile Include="Assets\Scripts\GenericCreature.cs" />
      <Compile Include="Assets\Scripts\HandleInput.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\SaveData.cs" />
+     <Compile Include="Assets\Scripts\Serialization\SerializationManager.cs" />
      <Compile Include="Assets\Scripts\Statics\DebuggerOnScreen.cs" />
      <Compile Include="Assets\Scripts\Statics\World.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
