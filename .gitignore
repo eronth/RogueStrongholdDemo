@@ -48,8 +48,11 @@
 sysinfo.txt
 *.stackdump
 /Assets/AssetStoreTools*
+
+# Unity Builds
 *.apk
 *.unitypackage
+*.symbols.zip
 
 # Extra Unity2d
 *.cache
