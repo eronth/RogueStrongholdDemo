@@ -46,3 +46,4 @@ Library/StateCache/
 *.pdb
 Library/CrashedAssetImports.txt
 Library/EditorInstance.json
+Library/ShaderCache
