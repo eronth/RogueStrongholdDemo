@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     private bool doingSetup;
     public static GameManager instance = null;
-    private BoardManager boardScript;
+    private WorldManager boardScript;
     [HideInInspector] public bool playersTurn = true;
 
     //Awake is always called before any Start functions
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         // Get a component reference to the attached BoardManager script
-        boardScript = GetComponent<BoardManager>();
+        boardScript = GetComponent<WorldManager>();
 
         // Call the InitGame function to initialize the first level 
         InitGame();
