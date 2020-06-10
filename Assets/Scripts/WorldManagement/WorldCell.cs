@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class WorldCell
 {
-    public Vector2Int Coordinates;
+    public Vector2Int Coordinates = new Vector2Int();
     
     public WorldCell[] Neighbor = new WorldCell[6];
 

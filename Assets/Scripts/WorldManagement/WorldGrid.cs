@@ -1,10 +1,15 @@
-﻿public class WorldGrid
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Tilemaps;
+
+public class WorldGrid
 {
-    int Height = 9;
-    int Width = 9;
+    public int Height = 21;
+    public int Width = 21;
     private WorldCell[,] Grid;
 
-    WorldGrid()
+    public WorldGrid()
     {
         Grid = new WorldCell[Height, Width];
         AssignCoordinates();
@@ -17,7 +22,8 @@
         {
             for(int w = 0; w < Width; w++)
             {
-                Grid[h,w].Coordinates.x = h/2;
+                Grid[h,w] = new WorldCell();
+                Grid[h,w].Coordinates.x = h;
                 Grid[h,w].Coordinates.y = w/2;
             }
         }
@@ -28,13 +34,13 @@
         foreach(WorldCell cell in Grid)
         {
             cell.Neighbor[(int)HexDirection.N]
-                = (cell.Coordinates.x+1 + (Height/2) < Height)
-                    ? Grid[cell.Coordinates.x+1, cell.Coordinates.y]
+                = (cell.Coordinates.x+1 < Height)
+                    ? GetCell(cell.Coordinates.x+1, cell.Coordinates.y)
                     : null;
             
             cell.Neighbor[(int)HexDirection.S] 
-                = (cell.Coordinates.x-1 + (Height/2) >= 0)
-                    ? Grid[cell.Coordinates.x-1, cell.Coordinates.y]
+                = (cell.Coordinates.x-1  >= 0)
+                    ? GetCell(cell.Coordinates.x-1, cell.Coordinates.y)
                     : null;
             
             // If the y value is even, we do diagonals downward.
@@ -55,7 +61,7 @@
         {
             // Northwest
             cell.Neighbor[(int)HexDirection.NW] 
-                = (cell.Coordinates.x+adjustment + (Height/2) < Height)
+                = (cell.Coordinates.x + adjustment < Height)
                 ? GetCell(
                         cell.Coordinates.x + adjustment,
                         cell.Coordinates.y-1
@@ -64,7 +70,7 @@
 
             // Southwest
             cell.Neighbor[(int)HexDirection.SW] 
-                = (cell.Coordinates.x-1+adjustment + (Height/2) >= 0)
+                = (cell.Coordinates.x-1 + adjustment >= 0)
                 ? GetCell(
                         cell.Coordinates.x-1 + adjustment,
                         cell.Coordinates.y-1
@@ -77,7 +83,7 @@
         {
             // Northeast
             cell.Neighbor[(int)HexDirection.NE]
-                = (cell.Coordinates.x+adjustment + (Height/2) < Height)
+                = (cell.Coordinates.x + adjustment < Height)
                 ? GetCell(
                         cell.Coordinates.x + adjustment,
                         cell.Coordinates.y+1
@@ -86,7 +92,7 @@
 
             //Southeast
             cell.Neighbor[(int)HexDirection.SE]
-                = (cell.Coordinates.x-1+adjustment + (Height/2) >= 0)
+                = (cell.Coordinates.x-1 + adjustment >= 0)
                 ? GetCell(
                         cell.Coordinates.x-1 + adjustment,
                         cell.Coordinates.y+1
@@ -98,7 +104,7 @@
     WorldCell GetCell(int x, int y)
     {
         // TODO Use LInq?
-        int gridXIndex = x+(Height/2);
+        int gridXIndex = x;
         int gridYIndex = y+(Width/2);
         string exceptionMessage = "Exception due to the following:";
         bool throwException = false;
