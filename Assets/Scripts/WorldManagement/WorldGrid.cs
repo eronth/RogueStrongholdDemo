@@ -16,6 +16,7 @@ public class WorldGrid
         ConnectNeighbors();
     }
 
+    #region Initializers
     private void AssignCoordinates()
     {
         for(int h = 0; h < Height; h++)
@@ -100,8 +101,11 @@ public class WorldGrid
                 : null;
         }
     }
+    #endregion
 
-    WorldCell GetCell(int x, int y)
+    public WorldCell GetCell(Vector3Int Coordinates) { return GetCell(Coordinates.x, Coordinates.y); }
+    public WorldCell GetCell(Vector2Int Coordinates) { return GetCell(Coordinates.x, Coordinates.y); }
+    public WorldCell GetCell(int x, int y)
     {
         // TODO Use LInq?
         int gridXIndex = x;

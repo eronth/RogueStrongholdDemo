@@ -13,11 +13,10 @@ public class WorldGenerator : MonoBehaviour
     public TileBase tile2;
     public TileBase tile3;
 
+    // -- World and grid items -- //
     public WorldGrid world = new WorldGrid();
-    public Transform WorldGriddd;
-
-    public GameObject tgottm;
-    public Tilemap ttm;
+    public Transform LandLayer;
+    public Transform ObstacleLayer;
     
     #region Key Locations
     // Starting Zone Related Objects
@@ -38,24 +37,31 @@ public class WorldGenerator : MonoBehaviour
         startingZoneSpawnLocation = new Vector3Int(0, 0, 0);
         fortressSpawnLocation = new Vector3Int(0, world.Height/3, 0);
 
-        
-
         // Render the location visuals.
-        // -- Starting Zone -- //
-        theStartingZone = Instantiate(StartingZonePrefab, startingZoneSpawnLocation, Quaternion.identity, WorldGriddd);
+        // -- Prefab Zones -- //
+        theStartingZone = InitializePrefabLocation(StartingZonePrefab, startingZoneSpawnLocation, LandLayer, SpecialType.Starter);
+        theFortress = InitializePrefabLocation(FortressPrefab, fortressSpawnLocation, LandLayer, SpecialType.HomeFortress);
+
+
+        
+    }
+
+    Tilemap InitializePrefabLocation(Tilemap prefab, Vector3Int spawnLocation, Transform gridLayer, SpecialType st)
+    {
+        Tilemap tm = Instantiate(prefab, spawnLocation, Quaternion.identity, gridLayer);
+
         // Get an enumerator for all the cells within this area.
-        BoundsInt.PositionEnumerator a = theStartingZone.cellBounds.allPositionsWithin;
+        BoundsInt.PositionEnumerator pe = theStartingZone.cellBounds.allPositionsWithin;
         do
         {
-            tilemap.SetTile(a.Current, tile1);
-            if (theStartingZone.GetSprite(a.Current) == null)
-                tilemap.SetTile(a.Current, tile2);
-        } while (a.MoveNext());
-        
-        theFortress = Instantiate(FortressPrefab, fortressSpawnLocation, Quaternion.identity, WorldGriddd);
-        BoundsInt i = ttm.cellBounds;
+            if (theStartingZone.GetSprite(pe.Current) != null)
+            {
+                world.GetCell(pe.Current).special = st;
+                tilemap.SetTile(pe.Current, tile2);
+            }   
+        } while (pe.MoveNext());
 
-        
+        return tm;
     }
 
     // Update is called once per frame

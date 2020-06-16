@@ -1,4 +1,4 @@
-﻿public enum LandType
+﻿public enum TerrainType
 {
     Snow,
     Ice,

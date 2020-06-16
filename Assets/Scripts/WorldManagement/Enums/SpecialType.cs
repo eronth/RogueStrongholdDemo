@@ -1,4 +1,4 @@
-﻿public enum SpecialLandType
+﻿public enum SpecialType
 {
     Starter,
     HomeFortress,
