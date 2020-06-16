@@ -14,22 +14,48 @@ public class WorldGenerator : MonoBehaviour
     public TileBase tile3;
 
     public WorldGrid world = new WorldGrid();
-    public GameObject FortressPrefab;
     public Transform WorldGriddd;
-    private GameObject theFortress;
 
+    public GameObject tgottm;
+    public Tilemap ttm;
+    
+    #region Key Locations
+    // Starting Zone Related Objects
+    public Tilemap StartingZonePrefab;
+    private Tilemap theStartingZone;
+    private Vector3Int startingZoneSpawnLocation;
+
+    // Fortress Related Objects
+    public Tilemap FortressPrefab;
+    private Tilemap theFortress;
+    private Vector3Int fortressSpawnLocation;
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+        // Initialize some locations.
+        startingZoneSpawnLocation = new Vector3Int(0, 0, 0);
+        fortressSpawnLocation = new Vector3Int(0, world.Height/3, 0);
 
-        //tilemap.SetTile(new Vector3Int(0,0,0), tile1);
-        //tilemap.SetTile(new Vector3Int(1,0,0), tile2);
-        //tilemap.SetTile(new Vector3Int(0,1,0), tile3);
         
+
+        // Render the location visuals.
+        // -- Starting Zone -- //
+        theStartingZone = Instantiate(StartingZonePrefab, startingZoneSpawnLocation, Quaternion.identity, WorldGriddd);
+        // Get an enumerator for all the cells within this area.
+        BoundsInt.PositionEnumerator a = theStartingZone.cellBounds.allPositionsWithin;
+        do
+        {
+            tilemap.SetTile(a.Current, tile1);
+            if (theStartingZone.GetSprite(a.Current) == null)
+                tilemap.SetTile(a.Current, tile2);
+        } while (a.MoveNext());
         
-        theFortress = Instantiate(FortressPrefab, new Vector3Int(0,world.Height/3,0), Quaternion.identity);
-        theFortress.transform.parent = WorldGriddd;
+        theFortress = Instantiate(FortressPrefab, fortressSpawnLocation, Quaternion.identity, WorldGriddd);
+        BoundsInt i = ttm.cellBounds;
+
+        
     }
 
     // Update is called once per frame
