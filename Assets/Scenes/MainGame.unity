@@ -1884,6 +1884,7 @@ GameObject:
   - component: {fileID: 1112453432}
   - component: {fileID: 1112453431}
   - component: {fileID: 1112453433}
+  - component: {fileID: 1112453434}
   m_Layer: 0
   m_Name: WorldGrid
   m_TagString: Untagged
@@ -1944,6 +1945,18 @@ MonoBehaviour:
     type: 3}
   FortressPrefab: {fileID: 477654249387718818, guid: d4ba9d137435f974c9c15956e970f6ae,
     type: 3}
+--- !u!114 &1112453434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112453430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4034668582410942a0e5f741cf4e4f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1125869041
 GameObject:
   m_ObjectHideFlags: 0

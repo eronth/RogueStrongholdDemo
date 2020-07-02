@@ -46,6 +46,7 @@ public class WorldGrid
             
             // If the y value is even, we do diagonals downward.
             // If the y value is odd, we do diagonals upward.
+            // Use this function to handle those oddities consistently.
             ConnectDiagonalNeighbors(cell, (cell.Coordinates.y % 2 == 0));
         }
     }
@@ -111,6 +112,7 @@ public class WorldGrid
         int gridXIndex = x;
         int gridYIndex = y+(Width/2);
         string exceptionMessage = "Exception due to the following:";
+        // This is used as a flag instead of simply throwing the exception so we can ensure all issues are put in the message.
         bool throwException = false;
 
         if (0 > gridXIndex || gridXIndex >= Height)

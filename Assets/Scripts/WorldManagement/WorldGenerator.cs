@@ -21,47 +21,75 @@ public class WorldGenerator : MonoBehaviour
     #region Key Locations
     // Starting Zone Related Objects
     public Tilemap StartingZonePrefab;
-    private Tilemap theStartingZone;
-    private Vector3Int startingZoneSpawnLocation;
+    Zone StartingZone;
 
     // Fortress Related Objects
     public Tilemap FortressPrefab;
-    private Tilemap theFortress;
-    private Vector3Int fortressSpawnLocation;
+    Zone FortressZone;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
+         
         // Initialize some locations.
-        startingZoneSpawnLocation = new Vector3Int(0, 0, 0);
-        fortressSpawnLocation = new Vector3Int(0, world.Height/3, 0);
+        Vector3Int startingZoneSpawnLocation = new Vector3Int(0, 0, 0);
+        Vector3Int fortressSpawnLocation = new Vector3Int(0, world.Height/3, 0);
 
         // Render the location visuals.
-        // -- Prefab Zones -- //
-        theStartingZone = InitializePrefabLocation(StartingZonePrefab, startingZoneSpawnLocation, LandLayer, SpecialType.Starter);
-        theFortress = InitializePrefabLocation(FortressPrefab, fortressSpawnLocation, LandLayer, SpecialType.HomeFortress);
+        // -- Make Zones from Prefabs -- //
+        StartingZone = new Zone(world, SpecialType.Starter, LandLayer, null, null)
+        {
+            spawnLocation = startingZoneSpawnLocation,
+            PrefabLand = StartingZonePrefab,
+            PrefabWater = null,
+            PrefabObstacles = null,
+            tile1 = tile1,
 
+        };
+
+        FortressZone = new Zone(world, SpecialType.HomeFortress, LandLayer, null, null)
+        {
+            spawnLocation = fortressSpawnLocation,
+            PrefabLand = FortressPrefab,
+            PrefabWater = null,
+            PrefabObstacles = null,
+            tile1 = tile1,
+
+        };
+
+        // Generate the path between the starting area and the fortress. You gotta be able to get to one another.
+        PathFromZoneToZone(StartingZone, FortressZone);
+        
 
         
     }
 
-    Tilemap InitializePrefabLocation(Tilemap prefab, Vector3Int spawnLocation, Transform gridLayer, SpecialType st)
+    
+
+    void PathFromZoneToZone(Zone startZone, Zone endZone)
     {
-        Tilemap tm = Instantiate(prefab, spawnLocation, Quaternion.identity, gridLayer);
+        // TODO TODO connect starting zone to fortress via pathway.
+        
+        // todo determine the closest borders.
 
-        // Get an enumerator for all the cells within this area.
-        BoundsInt.PositionEnumerator pe = theStartingZone.cellBounds.allPositionsWithin;
-        do
-        {
-            if (theStartingZone.GetSprite(pe.Current) != null)
-            {
-                world.GetCell(pe.Current).special = st;
-                tilemap.SetTile(pe.Current, tile2);
-            }   
-        } while (pe.MoveNext());
+        // todo get surrounding cells
+        // todo pick a surrounding cell on the correct border.
 
-        return tm;
+
+        startZone.GetSurroundingCells();
+        // Pick a surrounding cell that's along the correct bounds, save it as path-start.
+
+        // TODO repeat for ending location.
+
+
+
+        // TODO get ending location bounds.
+        // TODO have the path start at the starting location edge NEAREST to the ending location.
+        // TODO have the starting path kinda zig and zag, trending TOWARDS the end location.
+
+
+        // TODO create spidering biomes.
     }
 
     // Update is called once per frame
