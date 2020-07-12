@@ -55,7 +55,6 @@ public class WorldGenerator : MonoBehaviour
             PrefabWater = null,
             PrefabObstacles = null,
             tile1 = tile1,
-
         };
 
         // Generate the path between the starting area and the fortress. You gotta be able to get to one another.
@@ -69,28 +68,26 @@ public class WorldGenerator : MonoBehaviour
 
     void PathFromZoneToZone(Zone startZone, Zone endZone)
     {
-        // TODO TODO connect starting zone to fortress via pathway.
-        
-        // todo determine the closest borders.
+        // Determine direction from start to end, which also determines which edge/corner to use.
+        // Consequencely, this determines the endzone edge/corner to use.
+        HexDirection pathDirection = Direction.GetDirection(startZone.spawnLocation, endZone.spawnLocation);
 
-        // todo get surrounding cells
-        // todo pick a surrounding cell on the correct border.
-
-
+        // TODO Using a list of surrounding areas, pick one that's on the proper edge for start.
         startZone.GetSurroundingCells();
+        // TODO Using a list of surrounding areas, pick one that's on the proper edge for end.
+        // TODO Create path starting at start zone, and moving towards end, with some variance happening.
+
+
+
+        
         // Pick a surrounding cell that's along the correct bounds, save it as path-start.
 
-        // TODO repeat for ending location.
 
 
-
-        // TODO get ending location bounds.
-        // TODO have the path start at the starting location edge NEAREST to the ending location.
-        // TODO have the starting path kinda zig and zag, trending TOWARDS the end location.
-
-
-        // TODO create spidering biomes.
+        
     }
+
+    
 
     // Update is called once per frame
     void Update()
