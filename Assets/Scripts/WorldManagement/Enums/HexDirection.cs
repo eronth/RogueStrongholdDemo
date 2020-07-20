@@ -16,7 +16,7 @@ public enum HexDirection
 
 static class Direction
 {
-    public static HexDirection GetDirection(Vector3Int p1, Vector3Int p2)
+    public static HexDirection GetDirection(Vector2Int p1, Vector2Int p2)
     {
         double rad = Mathf.Atan2(p2.y - p1.y, p2.x - p1.x);
 
@@ -113,5 +113,63 @@ static class Direction
         //     // If direction is undefined, just return undefined as opposite.
         //     _ => HexDirection.Undefined,
         // };
+    }
+
+    public static HexDirection Clockwise(HexDirection dir, int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            dir = Clockwise(dir);
+        }
+        return dir;
+    }
+    public static HexDirection Clockwise(HexDirection dir)
+    {
+        switch(dir)
+        {
+            case HexDirection.N:
+                return HexDirection.NE;
+            case HexDirection.NE:
+                return HexDirection.SE;
+            case HexDirection.SE:
+                return HexDirection.S;
+            case HexDirection.S:
+                return HexDirection.SW;
+            case HexDirection.SW:
+                return HexDirection.NW;
+            case HexDirection.NW:
+                return HexDirection.N;
+            default:
+                return HexDirection.Undefined;
+        }
+    }
+
+    public static HexDirection CounterClockwise(HexDirection dir, int num)
+    {
+        for (int i = 0; i < num; i++)
+        {
+            dir = CounterClockwise(dir);
+        }
+        return dir;
+    }
+    public static HexDirection CounterClockwise(HexDirection dir)
+    {
+        switch(dir)
+        {
+            case HexDirection.N:
+                return HexDirection.N;
+            case HexDirection.NE:
+                return HexDirection.NW;
+            case HexDirection.SE:
+                return HexDirection.NE;
+            case HexDirection.S:
+                return HexDirection.SE;
+            case HexDirection.SW:
+                return HexDirection.S;
+            case HexDirection.NW:
+                return HexDirection.SW;
+            default:
+                return HexDirection.Undefined;
+        }
     }
 }

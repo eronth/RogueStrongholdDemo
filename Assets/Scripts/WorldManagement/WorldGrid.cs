@@ -5,13 +5,15 @@ using UnityEngine.Tilemaps;
 
 public class WorldGrid
 {
-    public int Height = 21;
-    public int Width = 21;
+    public int Height = 41;
+    public int Width = 41;
+    public Vector2Int Center;
     private WorldCell[,] Grid;
 
     public WorldGrid()
     {
         Grid = new WorldCell[Height, Width];
+        Center = new Vector2Int(Height/2, Width/2);
         AssignCoordinates();
         ConnectNeighbors();
     }
@@ -25,7 +27,7 @@ public class WorldGrid
             {
                 Grid[h,w] = new WorldCell();
                 Grid[h,w].Coordinates.x = h;
-                Grid[h,w].Coordinates.y = w/2;
+                Grid[h,w].Coordinates.y = w;
             }
         }
     }
@@ -35,71 +37,92 @@ public class WorldGrid
         foreach(WorldCell cell in Grid)
         {
             cell.Neighbor[(int)HexDirection.N]
-                = (cell.Coordinates.x+1 < Height)
-                    ? GetCell(cell.Coordinates.x+1, cell.Coordinates.y)
+                = (cell.Coordinates.y+1 < Height)
+                    ? GetCell(cell.Coordinates.x, cell.Coordinates.y+1)
                     : null;
             
             cell.Neighbor[(int)HexDirection.S] 
-                = (cell.Coordinates.x-1  >= 0)
-                    ? GetCell(cell.Coordinates.x-1, cell.Coordinates.y)
+                = (cell.Coordinates.y-1  >= 0)
+                    ? GetCell(cell.Coordinates.x, cell.Coordinates.y-1)
                     : null;
             
-            // If the y value is even, we do diagonals downward.
-            // If the y value is odd, we do diagonals upward.
-            // Use this function to handle those oddities consistently.
+            // If the y (vertical) value is EVEN, then the "adjacent" horizontal cells (cells located at x, y-1 and x, y+1)
+            // will be shifted slightly NORTH of the center cell.
+            // If the y (vertical) value is ODD, then the "adjacent" horizontal cells (cells located at x, y-1 and x, y+1)
+            // will be shifted slightly SOUTH of the center cell.
             ConnectDiagonalNeighbors(cell, (cell.Coordinates.y % 2 == 0));
         }
     }
 
     private void ConnectDiagonalNeighbors(WorldCell cell, bool isYValueEven)
     {
-        // This adjustment acts to set the diagonals the right direction depending on if y is even or not.
-        // If the y value is even, we do diagonals downward.
-        // If the y value is odd, we do diagonals upward.
+        // If the y (vertical) value is EVEN, then the "adjacent" horizontal cells (cells located at x, y-1 and x, y+1)
+        // will be shifted slightly NORTH of the center cell.
+        // If the y (vertical) value is ODD, then the "adjacent" horizontal cells (cells located at x, y-1 and x, y+1)
+        // will be shifted slightly SOUTH of the center cell.
         int adjustment = (isYValueEven) ? 0 : 1;
+        int northX = cell.Coordinates.x + adjustment;
+        int southX = northX-1;
+        int eastY = cell.Coordinates.y+1;
+        int westY = cell.Coordinates.y-1;
+        WorldCell nwholder, swholder, neholder, seholder;
 
-        // Handle westward directions.
-        if (cell.Coordinates.y-1 + (Width/2) >= 0)
-        {
-            // Northwest
-            cell.Neighbor[(int)HexDirection.NW] 
-                = (cell.Coordinates.x + adjustment < Height)
-                ? GetCell(
-                        cell.Coordinates.x + adjustment,
-                        cell.Coordinates.y-1
-                    )
-                : null;
+        int h = Height;
+        int w = Width;
+        try {
+            // Handle westward directions.
+            if (westY >= 0)
+            {
+                // TODO REDO ALL OF THIS LOGIC TO WORK RIGHT.
+                // TODO IT IS ALL WRONG; GOTTA REDO
+                // Northwest
+                nwholder
+                    = (northX < Height)
+                    ? GetCell(
+                            northX,
+                            westY
+                        )
+                    : null;
+                cell.Neighbor[(int)HexDirection.NW] = nwholder;
 
-            // Southwest
-            cell.Neighbor[(int)HexDirection.SW] 
-                = (cell.Coordinates.x-1 + adjustment >= 0)
-                ? GetCell(
-                        cell.Coordinates.x-1 + adjustment,
-                        cell.Coordinates.y-1
-                    )
-                : null;
+                // Southwest
+                swholder
+                    = (southX >= 0)
+                    ? GetCell(
+                            southX,
+                            westY
+                        )
+                    : null;
+                cell.Neighbor[(int)HexDirection.SW] = swholder;
+            }
+
+            // Handle eastward directions.
+            if (eastY < Width)
+            {
+                // Northeast
+                neholder
+                    = (northX < Height)
+                    ? GetCell(
+                            northX,
+                            eastY
+                        )
+                    : null;
+                cell.Neighbor[(int)HexDirection.NE] = neholder;
+
+                // Southeast
+                seholder
+                    = (southX >= 0)
+                    ? GetCell(
+                            southX,
+                            eastY
+                        )
+                    : null;
+                cell.Neighbor[(int)HexDirection.SE] = seholder;
+            }
         }
-
-        // Handle eastward directions.
-        if (cell.Coordinates.y+1 + (Width/2) < Width)
+        catch (System.Exception e)
         {
-            // Northeast
-            cell.Neighbor[(int)HexDirection.NE]
-                = (cell.Coordinates.x + adjustment < Height)
-                ? GetCell(
-                        cell.Coordinates.x + adjustment,
-                        cell.Coordinates.y+1
-                    )
-                : null;
 
-            //Southeast
-            cell.Neighbor[(int)HexDirection.SE]
-                = (cell.Coordinates.x-1 + adjustment >= 0)
-                ? GetCell(
-                        cell.Coordinates.x-1 + adjustment,
-                        cell.Coordinates.y+1
-                    )
-                : null;
         }
     }
     #endregion
@@ -110,20 +133,20 @@ public class WorldGrid
     {
         // TODO Use LInq?
         int gridXIndex = x;
-        int gridYIndex = y+(Width/2);
-        string exceptionMessage = "Exception due to the following:";
+        int gridYIndex = y;
+        string exceptionMessage = "Cell Boundry Exception due to the following:";
         // This is used as a flag instead of simply throwing the exception so we can ensure all issues are put in the message.
         bool throwException = false;
 
         if (0 > gridXIndex || gridXIndex >= Height)
         {
-            exceptionMessage += " X value out of bounds.";
+            exceptionMessage += $" X value ({x}) out of bounds.";
             throwException = true;
         }
         
         if (0 > gridYIndex || gridYIndex >= Width)
         {
-            exceptionMessage += " Y value out of bounds.";
+            exceptionMessage += $" Y value ({y}) out of bounds.";
             throwException = true;
         }
         

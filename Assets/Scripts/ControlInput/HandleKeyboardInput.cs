@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandleInput : MonoBehaviour
+public class HandleKeyboardInput : MonoBehaviour
 {
     [SerializeField]
     private LayerMask clickablesLayer;

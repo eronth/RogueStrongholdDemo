@@ -8,8 +8,17 @@ public class GameManager : MonoBehaviour
     private bool doingSetup;
     public static GameManager instance = null;
     private WorldManager boardScript;
+    public CameraFollow cameraFollow;
+    public Transform palyerTransform;
+    
     [HideInInspector] public bool playersTurn = true;
 
+
+    private void Start()
+    {
+        cameraFollow.Setup(() => palyerTransform.position);
+    }
+    
     //Awake is always called before any Start functions
     void Awake()
     {
@@ -27,11 +36,6 @@ public class GameManager : MonoBehaviour
         boardScript = GetComponent<WorldManager>();
 
         // Call the InitGame function to initialize the first level 
-        InitGame();
-    }
-
-    private void OnLevelWasLoaded(int index)
-    {
         InitGame();
     }
 
