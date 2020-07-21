@@ -37,13 +37,13 @@ public class WorldGrid
         foreach(WorldCell cell in Grid)
         {
             cell.Neighbor[(int)HexDirection.N]
-                = (cell.Coordinates.y+1 < Height)
-                    ? GetCell(cell.Coordinates.x, cell.Coordinates.y+1)
+                = (cell.Coordinates.x+1 < Height)
+                    ? GetCell(cell.Coordinates.x+1, cell.Coordinates.y)
                     : null;
             
             cell.Neighbor[(int)HexDirection.S] 
-                = (cell.Coordinates.y-1  >= 0)
-                    ? GetCell(cell.Coordinates.x, cell.Coordinates.y-1)
+                = (cell.Coordinates.x-1  >= 0)
+                    ? GetCell(cell.Coordinates.x-1, cell.Coordinates.y)
                     : null;
             
             // If the y (vertical) value is EVEN, then the "adjacent" horizontal cells (cells located at x, y-1 and x, y+1)

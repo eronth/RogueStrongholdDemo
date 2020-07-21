@@ -1496,12 +1496,12 @@ PrefabInstance:
     - target: {fileID: 9221201669591457084, guid: b76ab0464b783b0408392d57c81e05bf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.47
+      value: 15.48
       objectReference: {fileID: 0}
     - target: {fileID: 9221201669591457084, guid: b76ab0464b783b0408392d57c81e05bf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.5
+      value: 14.76
       objectReference: {fileID: 0}
     - target: {fileID: 9221201669591457084, guid: b76ab0464b783b0408392d57c81e05bf,
         type: 3}
@@ -1964,7 +1964,7 @@ MonoBehaviour:
   ObstacleLayer: {fileID: 1134421655}
   StartingZonePrefab: {fileID: 5421952987945568053, guid: 00ac33cd10202384ba456903bc851fea,
     type: 3}
-  FortressPrefab: {fileID: 477654249387718818, guid: d4ba9d137435f974c9c15956e970f6ae,
+  FortressPrefab: {fileID: 8856234006664296203, guid: 2484404e1975163419cd3cc33fea951c,
     type: 3}
   TestPrefab: {fileID: 7471522656068904987, guid: 901575b3cefd3264f8844c448d2cc8af,
     type: 3}

@@ -56,16 +56,16 @@ public class WorldGenerator : MonoBehaviour
 
         // Render the location visuals.
         // -- Make Zones from Prefabs -- //
-        StartingZone = new Zone(world, SpecialType.Starter, LandLayer, WaterLayer, ObstacleLayer)
-        {
-            spawnLocation = startingZoneSpawnLocation,
-            PrefabLand = StartingZonePrefab,
-            PrefabWater = null,
-            PrefabObstacles = null,
-            tile1 = tile1,
-            debugName = "StartZone",
-        };
-        StartingZone.Spawn();
+        // StartingZone = new Zone(world, SpecialType.Starter, LandLayer, WaterLayer, ObstacleLayer)
+        // {
+        //     spawnLocation = startingZoneSpawnLocation,
+        //     PrefabLand = StartingZonePrefab,
+        //     PrefabWater = null,
+        //     PrefabObstacles = null,
+        //     tile1 = tile1,
+        //     debugName = "StartZone",
+        // };
+        //StartingZone.Spawn();
 
         FortressZone = new Zone(world, SpecialType.HomeFortress, LandLayer, WaterLayer, ObstacleLayer)
         {
@@ -78,16 +78,16 @@ public class WorldGenerator : MonoBehaviour
         };
         FortressZone.Spawn();
 
-        // TestZone = new Zone(world, SpecialType.Debug, LandLayer, WaterLayer, ObstacleLayer)
-        // {
-        //     spawnLocation = testingSpawnLocation,
-        //     PrefabLand = TestPrefab,
-        //     PrefabWater = null,
-        //     PrefabObstacles = null,
-        //     tile1 = tile1,
-        //     debugName = "TestZone",
-        // };
-        // TestZone.Spawn();
+        TestZone = new Zone(world, SpecialType.Debug, LandLayer, WaterLayer, ObstacleLayer)
+        {
+            spawnLocation = testingSpawnLocation,
+            PrefabLand = TestPrefab,
+            PrefabWater = null,
+            PrefabObstacles = null,
+            tile1 = tile1,
+            debugName = "TestZone",
+        };
+        TestZone.Spawn();
 
         // Test2Zone = new Zone(world, SpecialType.Debug, LandLayer, WaterLayer, ObstacleLayer)
         // {

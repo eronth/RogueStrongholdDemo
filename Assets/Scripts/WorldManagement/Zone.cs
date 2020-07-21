@@ -46,8 +46,10 @@ public class Zone : MonoBehaviour
     private int WesternBounds;
 
     // Lists generated here.
-    private List<Vector2Int> surroundingCellCoordinates = new List<Vector2Int>();
+    // Coordinates on a lockalized system.
+    private List<Vector2Int> localContainingCellCoordinates = new List<Vector2Int>();
     private List<Vector2Int> containingCellCoordinates = new List<Vector2Int>();
+    private List<Vector2Int> surroundingCellCoordinates = new List<Vector2Int>();
 
 
     public Zone (WorldGrid _worldGridHolder, SpecialType zoneSpecialType,
@@ -73,6 +75,7 @@ public class Zone : MonoBehaviour
         if(PrefabWater != null)
             WaterMap = InitializePrefabLocation(PrefabLand, new Vector3(targetWorldCoordinates.x, targetWorldCoordinates.y, 0), WaterLayer, SpecialType);
 
+        PopulateSurroundingCells();
     }
 
     Tilemap InitializePrefabLocation(Tilemap prefab, Vector3 spawnLocation, Transform gridLayer, SpecialType st)
@@ -114,28 +117,30 @@ public class Zone : MonoBehaviour
             if (tm.GetSprite(pe.Current) != null)
             {
                 Vector2Int coords = WorldGridHolder.GetCell(pe.Current).Coordinates;
-                containingCellCoordinates.Add(coords);
-                if (coords.y > NorthernBounds) { NorthernBounds = coords.y; }
-                if (coords.y < SouthernBounds) { SouthernBounds = coords.y; }
-                if (coords.x > EasternBounds) { EasternBounds = coords.x; }
-                if (coords.x < WesternBounds) { WesternBounds = coords.x; }
+                localContainingCellCoordinates.Add(coords);
+                if (coords.x > NorthernBounds) { NorthernBounds = coords.x; }
+                if (coords.x < SouthernBounds) { SouthernBounds = coords.x; }
+                if (coords.y > EasternBounds) { EasternBounds = coords.y; }
+                if (coords.y < WesternBounds) { WesternBounds = coords.y; }
+                
+                #region Debug
+                if (DebugSettings.DebugZone)
+                {
+                    tm.SetTile(new Vector3Int(coords.x, coords.y, 0), DebugSettings.DebugPathTile);
+                }
+                #endregion
             }   
         } while (pe.MoveNext());
-    }
 
-    public Vector2Int GetCenter()
-    {
-        if(containingCellCoordinates == null 
-        || containingCellCoordinates.Count == 0)
+        // Now that we have the localized values, let's generalize them for global usage.
+        foreach(Vector2Int localCellCorrdinate in localContainingCellCoordinates)
         {
-            PopulateContainingCells();
+            containingCellCoordinates.Add(new Vector2Int(
+                localCellCorrdinate.x+spawnLocation.x,
+                localCellCorrdinate.y+spawnLocation.y));
         }
-
-        return new Vector2Int(
-            (WesternBounds + EasternBounds) / 2,
-            (NorthernBounds + SouthernBounds) / 2
-        );
     }
+
 
     // TODO make this work wtih all the different tilemap layers.
     private void PopulateSurroundingCells()
@@ -171,6 +176,19 @@ public class Zone : MonoBehaviour
                     CheckAndAddSurroundingCell(cell.Neighbor[(int)HexDirection.SW].Coordinates);
             }
         }
+        #region Debug
+        if (DebugSettings.DebugZoneSurrounding)
+        {
+            foreach(Vector2Int coordinate in surroundingCellCoordinates)
+            {
+                LandMap.SetTile(new Vector3Int(
+                            coordinate.x - spawnLocation.x,
+                            coordinate.y - spawnLocation.y,
+                            0),
+                     DebugSettings.DebugZoneSurroundingTile);
+            }
+        }
+        #endregion
     }
 
     private void CheckAndAddSurroundingCell(Vector2Int cellCoordinates)
@@ -184,6 +202,20 @@ public class Zone : MonoBehaviour
         }
     }
 
+    public Vector2Int GetCenter()
+    {
+        if(localContainingCellCoordinates == null 
+        || localContainingCellCoordinates.Count == 0)
+        {
+            PopulateContainingCells();
+        }
+
+        return new Vector2Int(
+            (WesternBounds + EasternBounds) / 2,
+            (NorthernBounds + SouthernBounds) / 2
+        );
+    }
+
     // Return a list of populated cells
     public List<Vector2Int> GetSurroundingCells()
     {
@@ -192,7 +224,7 @@ public class Zone : MonoBehaviour
             PopulateSurroundingCells();
         }
 
-        return containingCellCoordinates;
+        return surroundingCellCoordinates;
     }
 
     // Return a list of surrounding cells.
