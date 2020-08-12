@@ -113,7 +113,7 @@ public class WorldGenerator : MonoBehaviour
 
 
 
-        // // Generate the path between the starting area and the fortress. You gotta be able to get to one another.
+        // Generate the path between the starting area and the fortress. You gotta be able to get to one another.
         // PathFromZoneToZone(StartingZone, FortressZone, tile2);
     }
 
@@ -174,6 +174,10 @@ public class WorldGenerator : MonoBehaviour
                 {
                     tilemap.SetTile(new Vector3Int(currentCell.Coordinates.x, currentCell.Coordinates.y, 0), DebugSettings.DebugPathTile);
                     // tm.SetTile(new Vector3Int(coords.x, coords.y, 0), DebugSettings.DebugPathTile);
+                }
+                else
+                {
+                    tilemap.SetTile(new Vector3Int(currentCell.Coordinates.x, currentCell.Coordinates.y, 0), groundTile);
                 }
                 #endregion
                 // todo chance for "extra" things to appear on the side.
