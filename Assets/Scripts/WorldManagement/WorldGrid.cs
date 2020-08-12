@@ -36,12 +36,12 @@ public class WorldGrid
     {
         foreach(WorldCell cell in Grid)
         {
-            cell.Neighbor[(int)HexDirection.N]
+            cell.NorthernNeighbor
                 = (cell.Coordinates.x+1 < Height)
                     ? GetCell(cell.Coordinates.x+1, cell.Coordinates.y)
                     : null;
             
-            cell.Neighbor[(int)HexDirection.S] 
+            cell.SouthernNeighbor
                 = (cell.Coordinates.x-1  >= 0)
                     ? GetCell(cell.Coordinates.x-1, cell.Coordinates.y)
                     : null;
@@ -83,7 +83,7 @@ public class WorldGrid
                             westY
                         )
                     : null;
-                cell.Neighbor[(int)HexDirection.NW] = nwholder;
+                cell.NorthWesternNeighbor = nwholder;
 
                 // Southwest
                 swholder
@@ -93,7 +93,7 @@ public class WorldGrid
                             westY
                         )
                     : null;
-                cell.Neighbor[(int)HexDirection.SW] = swholder;
+                cell.SouthWesternNeighbor = swholder;
             }
 
             // Handle eastward directions.
@@ -107,7 +107,7 @@ public class WorldGrid
                             eastY
                         )
                     : null;
-                cell.Neighbor[(int)HexDirection.NE] = neholder;
+                cell.NorthEasternNeighbor = neholder;
 
                 // Southeast
                 seholder
@@ -117,7 +117,7 @@ public class WorldGrid
                             eastY
                         )
                     : null;
-                cell.Neighbor[(int)HexDirection.SE] = seholder;
+                cell.SouthEasternNeighbor = seholder;
             }
         }
         catch (System.Exception e)

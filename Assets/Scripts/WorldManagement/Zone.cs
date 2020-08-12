@@ -126,7 +126,7 @@ public class Zone : MonoBehaviour
                 #region Debug
                 if (DebugSettings.DebugZone)
                 {
-                    tm.SetTile(new Vector3Int(coords.x, coords.y, 0), DebugSettings.DebugPathTile);
+                    tm.SetTile(new Vector3Int(coords.x, coords.y, 0), DebugSettings.DebugZoneTile);
                 }
                 #endregion
             }   
@@ -146,34 +146,34 @@ public class Zone : MonoBehaviour
     private void PopulateSurroundingCells()
     {
         // If we gotta populate surrounding, make sure containing is up to date.
-        if(containingCellCoordinates == null
-        || containingCellCoordinates.Count == 0)
+        if (containingCellCoordinates == null
+         || containingCellCoordinates.Count == 0)
         {
             PopulateContainingCells();
         }
         
-        foreach(Vector2Int cellCoordinates in containingCellCoordinates) 
+        foreach (Vector2Int cellCoordinates in containingCellCoordinates) 
         {
             WorldCell cell = WorldGridHolder.GetCell(cellCoordinates);
-            if(cell != null)
+            if (cell != null)
             {
-                if(cell.Neighbor[(int)HexDirection.N] != null)
-                    CheckAndAddSurroundingCell(cell.Neighbor[(int)HexDirection.N].Coordinates);
+                if (cell.NorthernNeighbor != null)
+                    CheckAndAddSurroundingCell(cell.NorthernNeighbor.Coordinates);
 
-                if(cell.Neighbor[(int)HexDirection.NE] != null)
-                    CheckAndAddSurroundingCell(cell.Neighbor[(int)HexDirection.NE].Coordinates);
+                if (cell.NorthEasternNeighbor != null)
+                    CheckAndAddSurroundingCell(cell.NorthEasternNeighbor.Coordinates);
                 
-                if(cell.Neighbor[(int)HexDirection.NW] != null)
-                    CheckAndAddSurroundingCell(cell.Neighbor[(int)HexDirection.NW].Coordinates);
+                if (cell.NorthWesternNeighbor != null)
+                    CheckAndAddSurroundingCell(cell.NorthWesternNeighbor.Coordinates);
                 
-                if(cell.Neighbor[(int)HexDirection.S] != null)
-                    CheckAndAddSurroundingCell(cell.Neighbor[(int)HexDirection.S].Coordinates);
+                if (cell.SouthernNeighbor != null)
+                    CheckAndAddSurroundingCell(cell.SouthernNeighbor.Coordinates);
 
-                if(cell.Neighbor[(int)HexDirection.SE] != null)
-                    CheckAndAddSurroundingCell(cell.Neighbor[(int)HexDirection.SE].Coordinates);
+                if (cell.SouthEasternNeighbor != null)
+                    CheckAndAddSurroundingCell(cell.SouthEasternNeighbor.Coordinates);
 
-                if(cell.Neighbor[(int)HexDirection.SW] != null)
-                    CheckAndAddSurroundingCell(cell.Neighbor[(int)HexDirection.SW].Coordinates);
+                if (cell.SouthWesternNeighbor != null)
+                    CheckAndAddSurroundingCell(cell.SouthWesternNeighbor.Coordinates);
             }
         }
         #region Debug
@@ -181,11 +181,14 @@ public class Zone : MonoBehaviour
         {
             foreach(Vector2Int coordinate in surroundingCellCoordinates)
             {
-                LandMap.SetTile(new Vector3Int(
-                            coordinate.x - spawnLocation.x,
-                            coordinate.y - spawnLocation.y,
-                            0),
-                     DebugSettings.DebugZoneSurroundingTile);
+                if (DebugSettings.DebugZoneSurrounding)
+                {
+                    LandMap.SetTile(new Vector3Int(
+                                coordinate.x - spawnLocation.x,
+                                coordinate.y - spawnLocation.y,
+                                0),
+                        DebugSettings.DebugZoneSurroundingTile);
+                }
             }
         }
         #endregion

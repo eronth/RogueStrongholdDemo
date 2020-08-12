@@ -137,14 +137,14 @@ public class WorldGenerator : MonoBehaviour
         world.GetCell(endCoordinates).special = SpecialType.Path;
 
         HexDirection nextDirection = pathDirection;
-        WorldCell currentCell = world.GetCell(startCoordinates).Neighbor[(int)pathDirection];
+        WorldCell currentCell = world.GetCell(startCoordinates).GetNeighbor(pathDirection);
         currentCell.special = SpecialType.Path;
 
         // cycle through the cells, starting from startCell, and heading towards pathDirection.
         bool NeighborIsEndCoordinates = false;
-        while (!NeighborIsEndCoordinates)// TODO (currentCell.Coordinates != endCoordinates)
+        while (!NeighborIsEndCoordinates)
         {
-            foreach(WorldCell neighbor in currentCell.Neighbor)
+            foreach(WorldCell neighbor in currentCell.GetListOfNeighbors())
             {
                 if(endCoordinates == neighbor.Coordinates)
                 {
@@ -162,14 +162,20 @@ public class WorldGenerator : MonoBehaviour
                 {
                     // TODO randomly determine which direction we will be going, offset from the nextDirection (or exactly equal to nextDirection)
                     nextDirection = GetNextDirection(Direction.GetDirection(currentCell.Coordinates, endCoordinates));
-                    nextCell = currentCell.Neighbor[(int)nextDirection];
+                    nextCell = currentCell.GetNeighbor(nextDirection);
                     validNextCell = true;
                 }
                 currentCell = nextCell;
 
                 // Build the path with what we found.
                 currentCell.special = SpecialType.Path;
-                tilemap.SetTile(new Vector3Int(currentCell.Coordinates.x, currentCell.Coordinates.y, 0), tile2);
+                #region Debug
+                if (DebugSettings.DebugPath)
+                {
+                    tilemap.SetTile(new Vector3Int(currentCell.Coordinates.x, currentCell.Coordinates.y, 0), DebugSettings.DebugPathTile);
+                    // tm.SetTile(new Vector3Int(coords.x, coords.y, 0), DebugSettings.DebugPathTile);
+                }
+                #endregion
                 // todo chance for "extra" things to appear on the side.
             }
 
